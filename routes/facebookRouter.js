@@ -15,19 +15,34 @@ let geocoder = NodeGeocoder(options);
 router.get("/albums/", async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
-    let newAlbumInfo = [];
 
-    fbDatas.map(async data => {
-      if (data.location !== undefined || data.location === "") {
-        let geoCodedLocation = await geocoder.geocode(data.location);
-        if (geoCodedLocation) {
-          newAlbumInfo.push(geoCodedLocation);
-        }
-      }
-    });
-    res.status(200).json(newAlbumInfo);
+    res.status(200).json(fbDatas);
 
     // res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/geocodes/", async (req, res) => {
+  try {
+    let { location } = req.body;
+
+    let geocodeUpdate = await geocoder.geocode(location);
+
+    res.status(200).json(geocodeUpdate[0]);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/album/:id", async (req, res) => {
+  try {
+    let { id } = req.params;
+
+    let fbAlbumData = await facebookHelper.getAlbumData(id);
+
+    res.status(200).json(fbAlbumData);
   } catch (err) {
     console.log(err);
   }

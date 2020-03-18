@@ -12,6 +12,17 @@ async function getAlbums() {
   return albums;
 }
 
+async function getAlbumData(id) {
+  const albumData = await graph.fetch(
+    `${id}`,
+    "photos",
+    "picture, images",
+    Infinity
+  );
+  return albumData;
+}
+
 module.exports = {
-  getAlbums
+  getAlbums,
+  getAlbumData
 };
