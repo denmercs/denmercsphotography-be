@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "facebookgraph": "https://github.com/denmercs/facebookgraph/tarball/master",
+    "facebookgraph": "https://github.com/denmercs/facebookgraph#master",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.9",
