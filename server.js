@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 
 const authRouter = require("./routes/authRouter");
+const facebookRouter = require("./routes/facebookRouter");
 
 const server = express();
 
@@ -11,6 +12,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use("/auth", authRouter);
+server.use("/facebook", facebookRouter);
 
 server.get("/", (req, res) => {
   res.json({
