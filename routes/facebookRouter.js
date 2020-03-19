@@ -20,7 +20,7 @@ router.get("/albums/", cors(), async (req, res) => {
           description: fbDatas[i].description,
           latitude: geocodes[0].lat,
           longitude: geocodes[0].lon,
-          coverPhoto: coverPhoto[1].picture
+          coverPhoto: coverPhoto[0].picture
         });
       }
     }
