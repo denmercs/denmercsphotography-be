@@ -23,12 +23,14 @@ router.get("/albums/", async (req, res) => {
         withGeoCodes.push({
           id: fbDatas[i].id,
           name: fbDatas[i].name,
-          location: fbDatas[i].location,
+          desription: fbDatas[i].description,
+          coverPhoto: fbDatas[i].cover_photo.id,
           latitude: geocodes[0].latitude,
           longitude: geocodes[0].longitude
         });
       }
     }
+    console.log(withGeoCodes);
     res.status(200).json(withGeoCodes);
   } catch (err) {
     console.log(err);
@@ -54,6 +56,17 @@ router.post("/album/:id", async (req, res) => {
     let fbAlbumData = await facebookHelper.getAlbumData(id);
 
     res.status(200).json(fbAlbumData);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/coverphoto/:id", async (req, res) => {
+  try {
+    let { id } = req.params;
+
+    let coverPhoto = await facebookHelper.getCoverPhoto(id);
+    res.status(200).json(coverPhoto);
   } catch (err) {
     console.log(err);
   }
