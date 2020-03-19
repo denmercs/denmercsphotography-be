@@ -15,10 +15,23 @@ let geocoder = NodeGeocoder(options);
 router.get("/albums/", async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
+    let withGeoCodes = [];
 
-    res.status(200).json(fbDatas);
-
-    // res.status(200).json(data);
+    for (let i = 0; i < fbDatas.length; i++) {
+      if (fbDatas[i].location !== undefined) {
+        let geocodes = await geocoder.geocode(fbDatas[i].location);
+        withGeoCodes.push([
+          {
+            id: fbDatas[i].id,
+            name: fbDatas[i].name,
+            location: fbDatas[i].location,
+            latitude: geocodes[0].latitude,
+            longitude: geocodes[0].longitude
+          }
+        ]);
+      }
+    }
+    res.status(200).json(withGeoCodes);
   } catch (err) {
     console.log(err);
   }
