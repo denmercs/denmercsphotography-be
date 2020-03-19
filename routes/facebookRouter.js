@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
+let cors = require("cors");
 
-router.get("/albums/", async (req, res) => {
+router.get("/albums/", cors(), async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
     let withGeoCodes = [];
