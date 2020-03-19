@@ -7,7 +7,12 @@ async function geosearch(q, limit = "1") {
     format: "json"
   });
   const ENDPOINT = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
-  const payload = await fetch(ENDPOINT).then(res => res.json());
+  const payload = await fetch(ENDPOINT, {
+    mode: "cors",
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    }
+  }).then(res => res.json());
   if (!payload || !payload.length) {
     throw new Error(`No response for Address: ${q}`);
   }
