@@ -4,17 +4,17 @@ const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
 let cors = require("cors");
 
-router.get("/albums/", cors(), async (req, res) => {
+router.get("/wedding/albums/", cors(), async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
-    let withGeoCodes = [];
+    let wedding = [];
 
     for (let i = 0; i < fbDatas.length; i++) {
-      if (fbDatas[i].location !== undefined) {
-        console.log(fbDatas[i].name);
+      if (fbDatas[i].location !== undefined && fbDatas[i].name.toLowerCase().includes("wedding")) {
+        console.log(fbDatas[i].name.toLowerCase());
         let geocodes = await geocode.geosearch(fbDatas[i].location);
         let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
-        withGeoCodes.push({
+        wedding.push({
           id: fbDatas[i].id,
           name: fbDatas[i].name,
           description: fbDatas[i].description,
@@ -24,7 +24,33 @@ router.get("/albums/", cors(), async (req, res) => {
         });
       }
     }
-    res.status(200).json(withGeoCodes);
+    res.status(200).json(wedding);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get("/engagement/albums/", cors(), async (req, res) => {
+  try {
+    let fbDatas = await facebookHelper.getAlbums();
+    let wedding = [];
+
+    for (let i = 0; i < fbDatas.length; i++) {
+      if (fbDatas[i].location !== undefined && fbDatas[i].name.toLowerCase().includes("engagement")) {
+        console.log(fbDatas[i].name.toLowerCase());
+        let geocodes = await geocode.geosearch(fbDatas[i].location);
+        let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
+        wedding.push({
+          id: fbDatas[i].id,
+          name: fbDatas[i].name,
+          description: fbDatas[i].description,
+          latitude: geocodes[0].lat,
+          longitude: geocodes[0].lon,
+          coverPhoto: coverPhoto[0].picture
+        });
+      }
+    }
+    res.status(200).json(wedding);
   } catch (err) {
     console.log(err);
   }
