@@ -1,4 +1,4 @@
-const Users = require("../users/usersHelper");
+const Users = require("../helper/usersHelper");
 
 module.exports = {
   validateUniqueUsername

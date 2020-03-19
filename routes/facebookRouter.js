@@ -1,16 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const facebookHelper = require("./facebookHelper");
-const NodeGeocoder = require("node-geocoder");
-
-let options = {
-  provider: "opencage",
-  httpAdapter: "https",
-  apiKey: process.env.OPENCAGE_GEOCODING_API_KEY,
-  formatter: null
-};
-
-let geocoder = NodeGeocoder(options);
+const facebookHelper = require("../helper/facebookHelper");
+const geocode = require("../helper/geocode");
 
 router.get("/albums/", async (req, res) => {
   try {
@@ -18,19 +9,22 @@ router.get("/albums/", async (req, res) => {
     let withGeoCodes = [];
 
     for (let i = 0; i < fbDatas.length; i++) {
-      if (fbDatas[i].location !== undefined) {
-        let geocodes = await geocoder.geocode(fbDatas[i].location);
+      if (
+        fbDatas[i].name.search("wedding") &&
+        fbDatas[i].location !== undefined
+      ) {
+        console.log(fbDatas[i].location);
+        let geocodes = await geocode.geosearch(fbDatas[i].location);
         withGeoCodes.push({
           id: fbDatas[i].id,
           name: fbDatas[i].name,
           desription: fbDatas[i].description,
-          coverPhoto: fbDatas[i].cover_photo.id,
-          latitude: geocodes[0].latitude,
-          longitude: geocodes[0].longitude
+          latitude: geocodes[0].lat,
+          longitude: geocodes[0].lon
         });
+        console.log(geocodes);
       }
     }
-    console.log(withGeoCodes);
     res.status(200).json(withGeoCodes);
   } catch (err) {
     console.log(err);
