@@ -10,16 +10,17 @@ router.get("/albums/", async (req, res) => {
 
     for (let i = 0; i < fbDatas.length; i++) {
       if (fbDatas[i].location !== undefined) {
-        console.log(fbDatas[i].location);
+        console.log(fbDatas[i].name);
         let geocodes = await geocode.geosearch(fbDatas[i].location);
+        let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
         withGeoCodes.push({
           id: fbDatas[i].id,
           name: fbDatas[i].name,
           description: fbDatas[i].description,
           latitude: geocodes[0].lat,
-          longitude: geocodes[0].lon
+          longitude: geocodes[0].lon,
+          coverPhoto: coverPhoto[1].picture
         });
-        console.log(geocodes);
       }
     }
     res.status(200).json(withGeoCodes);
