@@ -22,7 +22,8 @@ router.get("/wedding/albums/", async (req, res) => {
           description: fbDatas[i].description,
           latitude: geocodes[0].lat,
           longitude: geocodes[0].lon,
-          coverPhoto: coverPhoto[0].picture
+          // coverPhoto: coverPhoto[0].picture
+          coverPhoto: coverPhoto
         });
       }
     }
@@ -61,18 +62,6 @@ router.get("/engagement/albums/", async (req, res) => {
   }
 });
 
-router.post("/geocodes/", async (req, res) => {
-  try {
-    let { location } = req.body;
-
-    let geocodeUpdate = await geocoder.geocode(location);
-
-    res.status(200).json(geocodeUpdate[0]);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
 router.post("/album/:id", async (req, res) => {
   try {
     let { id } = req.params;
@@ -80,13 +69,25 @@ router.post("/album/:id", async (req, res) => {
     let fbAlbumData = await facebookHelper.getAlbumData(id);
     let newAlbum = [];
 
-    for (let i = 0; i < fbAlbumData.length; i++) {
-      newAlbum.push({
-        src: fbAlbumData[i].images[2].source,
-        thumbnail: fbAlbumData[i].images[8].source,
-        thumbnailWidth: fbAlbumData[i].images[8].width,
-        thumbnailHeight: fbAlbumData[i].images[8].height
-      });
+    if (id === "478468956008094") {
+      for (let i = 0; i < fbAlbumData.length; i++) {
+        // console.log(fbAlbumData[8].images.source);
+        newAlbum.push({
+          src: fbAlbumData[i].picture,
+          thumbnail: fbAlbumData[i].images[6].source,
+          thumbnailWidth: fbAlbumData[i].images[6].width,
+          thumbnailHeight: fbAlbumData[i].images[6].height
+        });
+      }
+    } else {
+      for (let i = 0; i < fbAlbumData.length; i++) {
+        newAlbum.push({
+          src: fbAlbumData[i].images[2].source,
+          thumbnail: fbAlbumData[i].images[8].source,
+          thumbnailWidth: fbAlbumData[i].images[8].width,
+          thumbnailHeight: fbAlbumData[i].images[8].height
+        });
+      }
     }
     res.status(200).json(newAlbum);
   } catch (err) {
