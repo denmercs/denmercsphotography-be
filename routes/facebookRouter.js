@@ -82,7 +82,10 @@ router.post("/album/:id", async (req, res) => {
     let newAlbum = [];
 
     for (let i = 0; i < fbAlbumData.length; i++) {
-      newAlbum.push([fbAlbumData[i].images[8], fbAlbumData[i].images[3]]);
+      newAlbum.push(
+        { first: fbAlbumData[i].images[8] },
+        { second: fbAlbumData[i].images[3] }
+      );
     }
     res.status(200).json(newAlbum);
   } catch (err) {
