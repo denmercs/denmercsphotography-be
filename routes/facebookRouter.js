@@ -22,8 +22,7 @@ router.get("/wedding/albums/", async (req, res) => {
           description: fbDatas[i].description,
           latitude: geocodes[0].lat,
           longitude: geocodes[0].lon,
-          // coverPhoto: coverPhoto[0].picture
-          coverPhoto: coverPhoto
+          coverPhoto: coverPhoto[0].picture
         });
       }
     }
