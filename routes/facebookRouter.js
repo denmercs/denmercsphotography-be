@@ -72,7 +72,7 @@ router.post("/album/:id", async (req, res) => {
       for (let i = 0; i < fbAlbumData.length; i++) {
         // console.log(fbAlbumData[8].images.source);
         newAlbum.push({
-          src: fbAlbumData[i].picture,
+          src: fbAlbumData[i].images[0].source,
           thumbnail: fbAlbumData[i].images[6].source,
           thumbnailWidth: fbAlbumData[i].images[6].width,
           thumbnailHeight: fbAlbumData[i].images[6].height
