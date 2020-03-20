@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
-let cors = require("cors");
 
-router.get("/wedding/albums/", cors(), async (req, res) => {
+router.get("/wedding/albums/", async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
     let wedding = [];
@@ -33,7 +32,7 @@ router.get("/wedding/albums/", cors(), async (req, res) => {
   }
 });
 
-router.get("/engagement/albums/", cors(), async (req, res) => {
+router.get("/engagement/albums/", async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
     let wedding = [];
