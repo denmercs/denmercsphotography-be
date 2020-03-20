@@ -83,10 +83,10 @@ router.post("/album/:id", async (req, res) => {
 
     for (let i = 0; i < fbAlbumData.length; i++) {
       newAlbum.push({
-        src: fbAlbumData[i].images[8].source,
-        thumbnail: fbAlbumData[i].images[3].source,
-        thumbnailWidth: fbAlbumData[i].images[3].width,
-        thumbnailHeight: fbAlbumData[i].images[3].height
+        src: fbAlbumData[i].images[2].source,
+        thumbnail: fbAlbumData[i].images[8].source,
+        thumbnailWidth: fbAlbumData[i].images[8].width,
+        thumbnailHeight: fbAlbumData[i].images[8].height
       });
     }
     res.status(200).json(newAlbum);
