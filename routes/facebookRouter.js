@@ -10,7 +10,10 @@ router.get("/wedding/albums/", cors(), async (req, res) => {
     let wedding = [];
 
     for (let i = 0; i < fbDatas.length; i++) {
-      if (fbDatas[i].location !== undefined && fbDatas[i].name.toLowerCase().includes("wedding")) {
+      if (
+        fbDatas[i].location !== undefined &&
+        fbDatas[i].name.toLowerCase().includes("wedding")
+      ) {
         console.log(fbDatas[i].name.toLowerCase());
         let geocodes = await geocode.geosearch(fbDatas[i].location);
         let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
@@ -36,7 +39,10 @@ router.get("/engagement/albums/", cors(), async (req, res) => {
     let wedding = [];
 
     for (let i = 0; i < fbDatas.length; i++) {
-      if (fbDatas[i].location !== undefined && fbDatas[i].name.toLowerCase().includes("engagement")) {
+      if (
+        fbDatas[i].location !== undefined &&
+        fbDatas[i].name.toLowerCase().includes("engagement")
+      ) {
         console.log(fbDatas[i].name.toLowerCase());
         let geocodes = await geocode.geosearch(fbDatas[i].location);
         let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
@@ -73,8 +79,12 @@ router.post("/album/:id", async (req, res) => {
     let { id } = req.params;
 
     let fbAlbumData = await facebookHelper.getAlbumData(id);
+    let newAlbum = [];
 
-    res.status(200).json(fbAlbumData);
+    for (let i = 0; i < fbAlbumData.length; i++) {
+      newAlbum.push([fbAlbumData[i].images[8], fbAlbumData[i].images[3]]);
+    }
+    res.status(200).json(newAlbum);
   } catch (err) {
     console.log(err);
   }
