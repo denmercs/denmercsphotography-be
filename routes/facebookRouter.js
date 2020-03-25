@@ -4,12 +4,7 @@ const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
 const cors = require("cors");
 
-let corsOptions = {
-  origin: "https://denmercsphotography-be.herokuapp.com/",
-  optionsSuccessStatus: 200
-};
-
-router.get("/wedding/albums/", cors(corsOptions), async (req, res) => {
+router.get("/wedding/albums/", async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
     let wedding = [];
@@ -38,7 +33,7 @@ router.get("/wedding/albums/", cors(corsOptions), async (req, res) => {
   }
 });
 
-router.get("/engagement/albums/", cors(corsOptions), async (req, res) => {
+router.get("/engagement/albums/", async (req, res) => {
   try {
     let fbDatas = await facebookHelper.getAlbums();
     let wedding = [];
@@ -67,7 +62,7 @@ router.get("/engagement/albums/", cors(corsOptions), async (req, res) => {
   }
 });
 
-router.post("/album/:id", cors(corsOptions), async (req, res) => {
+router.post("/album/:id", async (req, res) => {
   try {
     let { id } = req.params;
 
@@ -100,7 +95,7 @@ router.post("/album/:id", cors(corsOptions), async (req, res) => {
   }
 });
 
-router.post("/coverphoto/:id", cors(corsOptions), async (req, res) => {
+router.post("/coverphoto/:id", async (req, res) => {
   try {
     let { id } = req.params;
 
