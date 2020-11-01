@@ -33,7 +33,7 @@ async function getAlbumsWithCoverPhoto() {
   const albums = await graph.fetch(
     "151286648726328",
     "albums",
-    "name, cover_photo",
+    "name, picture",
     Infinity
   );
 

@@ -98,6 +98,7 @@ router.post("/coverphoto/:id", async (req, res) => {
     let { id } = req.params;
 
     let coverPhoto = await facebookHelper.getCoverPhoto(id);
+    console.log("this is the cover photo", coverPhoto);
     res.status(200).json(coverPhoto);
   } catch (err) {
     console.log(err);
@@ -150,16 +151,6 @@ router.get("/engagements", async (req, res) => {
     res.status(200).json(engagementAlbums);
   } catch (err) {
     res.status(400).json(err);
-  }
-});
-
-router.post("/photos/:id", async (req, res) => {
-  try {
-    let { id } = req.params;
-    let photos = await facebookHelper.getAlbumData(id);
-    res.status(200).json(photos);
-  } catch (err) {
-    console.log(err);
   }
 });
 
