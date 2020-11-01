@@ -3,6 +3,7 @@ const router = express.Router();
 const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
 const cors = require("cors");
+const { getCoverPhoto } = require("../helper/facebookHelper");
 
 router.get("/wedding/albums/", async (req, res) => {
   try {
@@ -105,12 +106,34 @@ router.post("/coverphoto/:id", async (req, res) => {
 
 router.get("/weddings", async (req, res) => {
   try {
-    let data = await facebookHelper.getAlbums();
+    let fbDatas = await facebookHelper.getAlbumsWithCoverPhoto();
 
-    let albums = data.filter((albums) =>
-      albums.name.toLowerCase().includes("wedding")
+    let weddingAlbums = fbDatas.filter((wedding) =>
+      wedding.name.toLowerCase().includes("wedding")
     );
-    res.status(200).json({ albums });
+
+    // let promises = fbDatas.map(async (album) => {
+    //   try {
+    //     let newData = [];
+    //     let coverPhoto = await getCoverPhoto(album.cover_photo[id]);
+    //     newData.push({
+    //       id: album.id,
+    //       name: album.name,
+    //     });
+
+    //     coverPhoto.map((photo) => newData.push({ photo: photo.picture }));
+
+    //     return newData;
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // });
+
+    // const newAlbums = await Promise.all(promises);
+
+    // console.log(newAlbums);
+
+    res.status(200).json(weddingAlbums);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -118,14 +141,26 @@ router.get("/weddings", async (req, res) => {
 
 router.get("/engagements", async (req, res) => {
   try {
-    let data = await facebookHelper.getAlbums();
+    let fbDatas = await facebookHelper.getAlbumsWithCoverPhoto();
 
-    let albums = data.filter((albums) =>
-      albums.name.toLowerCase().includes("wedding")
+    let engagementAlbums = fbDatas.filter((engagement) =>
+      engagement.name.toLowerCase().includes("engagement")
     );
-    res.status(200).json({ albums });
+
+    res.status(200).json(engagementAlbums);
   } catch (err) {
     res.status(400).json(err);
   }
 });
+
+router.post("/photos/:id", async (req, res) => {
+  try {
+    let { id } = req.params;
+    let photos = await facebookHelper.getAlbumData(id);
+    res.status(200).json(photos);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;
