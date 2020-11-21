@@ -2,34 +2,8 @@ const express = require("express");
 const router = express.Router();
 const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
-
-router.get("/wedding", async (req, res) => {
-  try {
-    let fbDatas = await facebookHelper.getAlbums();
-
-    let albums = fbDatas.filter((weddings) =>
-      weddings.name.toLowerCase().includes("wedding")
-    );
-
-    res.status(200).json({ albums });
-  } catch (err) {
-    res.status(400).json({ err: err.message });
-  }
-});
-
-router.get("/engagement", async (req, res) => {
-  try {
-    let fbDatas = await facebookHelper.getAlbums();
-
-    let albums = fbDatas.filter((weddings) =>
-      weddings.name.toLowerCase().includes("engagement")
-    );
-
-    res.status(200).json({ albums });
-  } catch (err) {
-    res.status(400).json({ err: err.message });
-  }
-});
+const cors = require("cors");
+const { getCoverPhoto } = require("../helper/facebookHelper");
 
 router.get("/wedding/albums/", async (req, res) => {
   try {
@@ -41,16 +15,13 @@ router.get("/wedding/albums/", async (req, res) => {
         fbDatas[i].location !== undefined &&
         fbDatas[i].name.toLowerCase().includes("wedding")
       ) {
-        console.log(fbDatas[i].name.toLowerCase());
         let geocodes = await geocode.geosearch(fbDatas[i].location);
-        let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
+        // let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
         wedding.push({
           id: fbDatas[i].id,
           name: fbDatas[i].name,
-          description: fbDatas[i].description,
           latitude: geocodes[0].lat,
           longitude: geocodes[0].lon,
-          coverPhoto: coverPhoto[0].picture,
         });
       }
     }
@@ -127,9 +98,38 @@ router.post("/coverphoto/:id", async (req, res) => {
     let { id } = req.params;
 
     let coverPhoto = await facebookHelper.getCoverPhoto(id);
+    console.log("this is the cover photo", coverPhoto);
     res.status(200).json(coverPhoto);
   } catch (err) {
     console.log(err);
+  }
+});
+
+router.get("/weddings", async (req, res) => {
+  try {
+    let fbDatas = await facebookHelper.getAlbumsWithCoverPhoto();
+
+    let weddingAlbums = fbDatas.filter((wedding) =>
+      wedding.name.toLowerCase().includes("wedding")
+    );
+
+    res.status(200).json(weddingAlbums);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.get("/engagements", async (req, res) => {
+  try {
+    let fbDatas = await facebookHelper.getAlbumsWithCoverPhoto();
+
+    let engagementAlbums = fbDatas.filter((engagement) =>
+      engagement.name.toLowerCase().includes("engagement")
+    );
+
+    res.status(200).json(engagementAlbums);
+  } catch (err) {
+    res.status(400).json(err);
   }
 });
 
