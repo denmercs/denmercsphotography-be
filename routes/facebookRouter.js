@@ -2,7 +2,34 @@ const express = require("express");
 const router = express.Router();
 const facebookHelper = require("../helper/facebookHelper");
 const geocode = require("../helper/geocode");
-const cors = require("cors");
+
+router.get("/wedding", async (req, res) => {
+  try {
+    let fbDatas = await facebookHelper.getAlbums();
+
+    let albums = fbDatas.filter((weddings) =>
+      weddings.name.toLowerCase().includes("wedding")
+    );
+
+    res.status(200).json({ albums });
+  } catch (err) {
+    res.status(400).json({ err: err.message });
+  }
+});
+
+router.get("/engagement", async (req, res) => {
+  try {
+    let fbDatas = await facebookHelper.getAlbums();
+
+    let albums = fbDatas.filter((weddings) =>
+      weddings.name.toLowerCase().includes("engagement")
+    );
+
+    res.status(200).json({ albums });
+  } catch (err) {
+    res.status(400).json({ err: err.message });
+  }
+});
 
 router.get("/wedding/albums/", async (req, res) => {
   try {
@@ -23,7 +50,7 @@ router.get("/wedding/albums/", async (req, res) => {
           description: fbDatas[i].description,
           latitude: geocodes[0].lat,
           longitude: geocodes[0].lon,
-          coverPhoto: coverPhoto[0].picture
+          coverPhoto: coverPhoto[0].picture,
         });
       }
     }
@@ -52,7 +79,7 @@ router.get("/engagement/albums/", async (req, res) => {
           description: fbDatas[i].description,
           latitude: geocodes[0].lat,
           longitude: geocodes[0].lon,
-          coverPhoto: coverPhoto[0].picture
+          coverPhoto: coverPhoto[0].picture,
         });
       }
     }
@@ -76,7 +103,7 @@ router.post("/album/:id", async (req, res) => {
           src: fbAlbumData[i].images[0].source,
           thumbnail: fbAlbumData[i].images[6].source,
           thumbnailWidth: fbAlbumData[i].images[6].width,
-          thumbnailHeight: fbAlbumData[i].images[6].height
+          thumbnailHeight: fbAlbumData[i].images[6].height,
         });
       }
     } else {
@@ -85,7 +112,7 @@ router.post("/album/:id", async (req, res) => {
           src: fbAlbumData[i].images[2].source,
           thumbnail: fbAlbumData[i].images[8].source,
           thumbnailWidth: fbAlbumData[i].images[8].width,
-          thumbnailHeight: fbAlbumData[i].images[8].height
+          thumbnailHeight: fbAlbumData[i].images[8].height,
         });
       }
     }
