@@ -5,60 +5,60 @@ const geocode = require("../helper/geocode");
 const cors = require("cors");
 const { getCoverPhoto } = require("../helper/facebookHelper");
 
-router.get("/wedding/albums/", async (req, res) => {
-  try {
-    let fbDatas = await facebookHelper.getAlbums();
-    let wedding = [];
+// router.get("/wedding/albums/", async (req, res) => {
+//   try {
+//     let fbDatas = await facebookHelper.getAlbums();
+//     let wedding = [];
 
-    for (let i = 0; i < fbDatas.length; i++) {
-      if (
-        fbDatas[i].location !== undefined &&
-        fbDatas[i].name.toLowerCase().includes("wedding")
-      ) {
-        let geocodes = await geocode.geosearch(fbDatas[i].location);
-        // let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
-        wedding.push({
-          id: fbDatas[i].id,
-          name: fbDatas[i].name,
-          latitude: geocodes[0].lat,
-          longitude: geocodes[0].lon,
-        });
-      }
-    }
-    res.status(200).json(wedding);
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     for (let i = 0; i < fbDatas.length; i++) {
+//       if (
+//         fbDatas[i].location !== undefined &&
+//         fbDatas[i].name.toLowerCase().includes("wedding")
+//       ) {
+//         let geocodes = await geocode.geosearch(fbDatas[i].location);
+//         // let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
+//         wedding.push({
+//           id: fbDatas[i].id,
+//           name: fbDatas[i].name,
+//           latitude: geocodes[0].lat,
+//           longitude: geocodes[0].lon,
+//         });
+//       }
+//     }
+//     res.status(200).json(wedding);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
-router.get("/engagement/albums/", async (req, res) => {
-  try {
-    let fbDatas = await facebookHelper.getAlbums();
-    let wedding = [];
+// router.get("/engagement/albums/", async (req, res) => {
+//   try {
+//     let fbDatas = await facebookHelper.getAlbums();
+//     let wedding = [];
 
-    for (let i = 0; i < fbDatas.length; i++) {
-      if (
-        fbDatas[i].location !== undefined &&
-        fbDatas[i].name.toLowerCase().includes("engagement")
-      ) {
-        console.log(fbDatas[i].name.toLowerCase());
-        let geocodes = await geocode.geosearch(fbDatas[i].location);
-        let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
-        wedding.push({
-          id: fbDatas[i].id,
-          name: fbDatas[i].name,
-          description: fbDatas[i].description,
-          latitude: geocodes[0].lat,
-          longitude: geocodes[0].lon,
-          coverPhoto: coverPhoto[0].picture,
-        });
-      }
-    }
-    res.status(200).json(wedding);
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     for (let i = 0; i < fbDatas.length; i++) {
+//       if (
+//         fbDatas[i].location !== undefined &&
+//         fbDatas[i].name.toLowerCase().includes("engagement")
+//       ) {
+//         console.log(fbDatas[i].name.toLowerCase());
+//         let geocodes = await geocode.geosearch(fbDatas[i].location);
+//         let coverPhoto = await facebookHelper.getCoverPhoto(fbDatas[i].id);
+//         wedding.push({
+//           id: fbDatas[i].id,
+//           name: fbDatas[i].name,
+//           description: fbDatas[i].description,
+//           latitude: geocodes[0].lat,
+//           longitude: geocodes[0].lon,
+//           coverPhoto: coverPhoto[0].picture,
+//         });
+//       }
+//     }
+//     res.status(200).json(wedding);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 router.post("/album/:id", async (req, res) => {
   try {

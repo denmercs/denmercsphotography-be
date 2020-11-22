@@ -13,11 +13,6 @@ async function getAlbums() {
   return albums;
 }
 
-async function getAlbumData(id) {
-  const data = await graph.fetch(`${id}`, "albums");
-  return data;
-}
-
 async function getAlbumPictures(id) {
   const pictures = await graph.fetch(
     `${id}`,
@@ -38,7 +33,7 @@ async function getAlbumsWithCoverPhoto() {
   const albums = await graph.fetch(
     "151286648726328",
     "albums",
-    "name, picture",
+    "name, picture, description, location",
     Infinity
   );
 
@@ -47,7 +42,6 @@ async function getAlbumsWithCoverPhoto() {
 
 module.exports = {
   getAlbums,
-  getAlbumData,
   getAlbumPictures,
   getCoverPhoto,
   getAlbumsWithCoverPhoto,
