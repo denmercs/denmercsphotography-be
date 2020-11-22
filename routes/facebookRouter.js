@@ -64,7 +64,7 @@ router.post("/album/:id", async (req, res) => {
   try {
     let { id } = req.params;
 
-    let fbAlbumData = await facebookHelper.getAlbumData(id);
+    let fbAlbumData = await facebookHelper.getAlbumPictures(id);
     let newAlbum = [];
 
     if (id === "478468956008094") {
@@ -87,6 +87,27 @@ router.post("/album/:id", async (req, res) => {
         });
       }
     }
+    res.status(200).json(newAlbum);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get("/albums/", async (req, res) => {
+  try {
+    let fbAlbumData = await facebookHelper.getAlbums();
+
+    let newAlbum = [];
+    fbAlbumData.map((album) => {
+      if (album.name.toLowerCase().includes("engagement")) {
+        newAlbum.push(album);
+      }
+
+      if (album.name.toLowerCase().includes("wedding")) {
+        newAlbum.push(album);
+      }
+    });
+
     res.status(200).json(newAlbum);
   } catch (err) {
     console.log(err);
