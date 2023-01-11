@@ -19,7 +19,7 @@
     "facebookgraph": "https://github.com/denmercs/facebookgraph#master",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.9",
+    "knex": "^2.4.0",
     "knex-cleaner": "^1.3.0",
     "node-fetch": "^2.6.1",
     "pg": "^7.18.1",
